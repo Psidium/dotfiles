@@ -3,8 +3,36 @@ runtime macros/matchit.vim
 " use old regext engine. speed up ruby syntax highlighting
 " set re=1
 
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+"Plug 'junegunn/seoul256.vim'
+"Plug 'junegunn/vim-easy-align'
+
+" On-demand loading
+"Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+"Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+" Using git URL
+Plug 'https://github.com/Keithbsmiley/swift.vim.git'
+
+" Plugin options
+"Plug 'nsf/gocode', { 'tag': 'go.weekly.2012-03-13', 'rtp': 'vim' }
+
+" Plugin outside ~/.vim/plugged with post-update hook
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+
+" Unmanaged plugin (manually installed and updated)
+"Plug '~/my-prototype-plugin'
+
+call plug#end()
+
 set ttyfast
 set lazyredraw
+
+"autocompletion for filenames
+set wildmode=longest,list,full
+set wildmenu
 
 let g:ruby_path="~/.rvm/bin/ruby"
 
@@ -26,6 +54,26 @@ map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
+" source powerline
+source /usr/local/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
+set laststatus=2
+
+" poweline support
+set guifont=Inconsolata\ for\ Powerline:h15
+let g:Powerline_symbols = 'fancy'
+set encoding=utf-8
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+
+" Add powerline suport to macvim 
+if has("gui_running")
+   let s:uname = system("uname")
+   if s:uname == "Darwin\n"
+      set guifont=Inconsolata\ for\ Powerline:h15
+   endif
+endif
 
 " Toggle nerdtree with F10
 map <F10> :NERDTreeToggle<CR>
