@@ -1,4 +1,4 @@
-" During this file you might find "TurtleOnATree" in some comments, that's
+"During this file you might find "TurtleOnATree" in some comments, that's
 " cause the code is exactly like a turtle on a tree: I don't know who put it
 " up there, I don't know why is he up there, but I might brake something if I
 " try to took him out there, so I'll just leave the turtle up there 
@@ -22,25 +22,34 @@ Plugin 'scrooloose/syntastic.git'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " Configurations for Syntastic
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs = 1
 let g:syntastic_auto_loc_list = 2
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_no_include_search = 0
-let g:syntastic_javascript_checkers = ["eslint"]
-let g:syntastic_haskell_checkers = ["ghc-mod", "hdev-tools"]
-let g:syntastic_coffeescript_checkers = ["coffeelint"]
-let g:syntastic_cpp_compiler = "g++"
-" let g:syntastic_cpp_compiler_options = " -std=c++11"
-let g:syntastic_java_checkers = []
-let g:syntastic_error_symbol = "X"
-let g:syntastic_style_error_symbol = ">"
-let g:syntastic_warning_symbol = "!"
-let g:syntastic_style_warning_symbol = ">"
+let g:syntastic_javascript_checkers = ['eslint'] "npm i -g eslint-plugin-openui5 && npm install -g eslint
+let g:syntastic_haskell_checkers = ['ghc_mod', 'hlint'] 
+" cabal update && cabal install ghc-mod and add /Libray/Haskell/bin to
+" systemPath
+let g:syntastic_c_checkers = ['gcc']
+let g:syntastic_cpp_checkers = ['gcc']
+let g:syntastic_python_checkers = ['python'] 
+let g:syntastic_java_checkers = ['javac'] " comes with the jdk
+let g:syntastic_vim_checkers = ['vint'] " pip install vim-vint
+let g:syntastic_ruby_checkers = ['rubylint'] " gem install ruby-lint
+let g:syntastic_error_symbol = 'X'
+let g:syntastic_style_error_symbol = '>'
+let g:syntastic_warning_symbol = '!'
+let g:syntastic_style_warning_symbol = '>'
 
+" add haskell to the path so ghc_mod works 
+let $PATH=$PATH.':/Library/Haskell/bin:/Library/Haskell/bin'
 
-" "TurtleOnATree"
+" "TurtleOnATree" it's actually for faster MacVim
 set ttyfast
 set lazyredraw
 
@@ -62,6 +71,15 @@ let mapleader = "\<Space>"
 map <Leader>w :update<CR>
 map <Leader>q :qall<CR>
 
+map <Leader>n :lnext<CR>
+map <Leader>N :lprev<CR>
+
+" My fat finger doesn't get out of shift in time, so I'll add this here
+command! W :w
+command! Q :q
+
+"Set the (y)ank command to copy to OSX's  clipboard
+set clipboard=unnamed
 
 " source powerline
 source /usr/local/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
@@ -73,15 +91,15 @@ let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
 set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
-if !has("gui")
+if !has('gui')
   set term=xterm-256color
 endif
 set termencoding=utf-8
 
 " Add powerline suport to macvim 
-if has("gui_running")
-   let s:uname = system("uname")
-   if s:uname == "Darwin\n"
+if has('gui_running')
+   let s:uname = system('uname')
+   if s:uname == 'Darwin\n'
       set guifont=Inconsolata\ for\ Powerline:h15
    endif
 endif
@@ -116,15 +134,15 @@ set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
 
 " Fuzzy finder: ignore stuff that can't be opened, and generated files
-let g:fuzzy_ignore = "*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**"
+let g:fuzzy_ignore = '*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**'
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+if (&t_Co > 2 || has('gui_running')) && !exists('syntax_on')
   syntax on
 endif
 
-if filereadable(expand("~/.vimrc.bundles"))
+if filereadable(expand('~/.vimrc.bundles'))
   source ~/.vimrc.bundles
 endif
 
@@ -140,15 +158,6 @@ set expandtab
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
-
-" Airline
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-let g:airline_theme='solarized'
-set t_Co=256
 
 :set smartcase
 :set ignorecase
@@ -219,7 +228,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Local config
-if filereadable($HOME . "/.vimrc.local")
+if filereadable($HOME . '/.vimrc.local')
   source ~/.vimrc.local
 endif
 
