@@ -19,13 +19,17 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 " syntastic MUST WORK UGH
 Plugin 'scrooloose/syntastic.git'
+" Surround words lines and blocks with { [ "' EVERYTHING
+Plugin 'tpope/vim-surround.git'
 call vundle#end()            " required
 filetype plugin indent on    " required
-" Configurations for Syntastic
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
 
+" Enable Omni autocompletion, an code completion built inside of vim (not that
+" good :(
+set omnifunc=syntaxcomplete#Complete
+
+
+" Configurations for Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
@@ -61,8 +65,7 @@ let $PATH='/usr/local/bin:' . $PATH
 
 :au FocusLost * :wa "Save on focus lost
 
-" Sessions # "TurtleOnATree"
-let g:session_autoload = 'no'
+" Sessions # "TurtleOnATree" let g:session_autoload = 'no'
 
 " Leader Mappings
 let mapleader = "\<Space>"  
@@ -74,12 +77,15 @@ map <Leader>q :qall<CR>
 map <Leader>n :lnext<CR>
 map <Leader>N :lprev<CR>
 
+" Run current file as python
+map <Leader>p :!python %<CR>
+
 " My fat finger doesn't get out of shift in time, so I'll add this here
 command! W :w
 command! Q :q
 
 "Set the (y)ank command to copy to OSX's  clipboard
-set clipboard=unnamed
+" set clipboard=unnamed " NOT FUN! I'll be sticking to cmd c and v for that
 
 " source powerline
 source /usr/local/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
