@@ -4,6 +4,8 @@
 " try to took him out there, so I'll just leave the turtle up there 
 if has("win32") || has("win64") || has("win16")
     set shell=$COMSPEC " If on windows, shell is cmd.exe
+    source $VIMRUNTIME/mswin.vim
+    behave mswin
 else
     set shell=/bin/bash
 endif
@@ -90,7 +92,7 @@ command! W :w
 command! Q :q
 
 "" poweline support
-set guifont=Inconsolata\ for\ Powerline:h15
+set guifont=Inconsolata\ for\ Powerline:h14
 
 
 " highlight vertical column of cursor #does this work?
@@ -100,6 +102,10 @@ set cursorline
 
 " airline configs
 set laststatus=2 "makes the second line always visible 
+set encoding=utf-8
+let g:airline_powerline_fonts = 1
+
+
 " key to insert mode with paste using F2 key # "TurtleOnATree"
 map <F2> :set paste<CR>i
 " Leave paste mode on exit
@@ -212,23 +218,8 @@ let g:html_indent_tags = 'li\|p'
 set splitbelow
 set splitright
 
-" Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-
 " Local config
 if filereadable($HOME . '/.vimrc.local')
   source ~/.vimrc.local
 endif
 
-" cmd n, cmd p for fwd/backward in search
-map <C-n> :cn<CR>
-map <C-p> :cp<CR>
-
-" Easy navigation between splits. Instead of ctrl-w + j. Just ctrl-j
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
