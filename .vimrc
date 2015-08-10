@@ -96,6 +96,10 @@ command! Q :q
 
 "" poweline support
 set guifont=Inconsolata\ for\ Powerline:h15
+set encoding=utf-8
+set t_Co=256
+"hide whitespace if there's a char after it
+set fillchars+=stl:\ ,stlnc:\
 
 " highlight vertical column of cursor #does this work?
 au WinLeave * set nocursorline nocursorcolumn
