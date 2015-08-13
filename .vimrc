@@ -21,6 +21,10 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic.git'
 " Surround words lines and blocks with { [ "' EVERYTHING
 Plugin 'tpope/vim-surround.git'
+" Objc syntax
+Plugin 'kentaroi/cocoa.vim'
+" minimap on vim
+Plugin 'severin-lemaignan/vim-minimap'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -83,6 +87,9 @@ map <Leader>p :!python %<CR>
 " My fat finger doesn't get out of shift in time, so I'll add this here
 command! W :w
 command! Q :q
+
+" type jj to leave insert mode
+:inoremap jj <Esc>
 
 "Set the (y)ank command to copy to OSX's  clipboard
 " set clipboard=unnamed " NOT FUN! I'll be sticking to cmd c and v for that
