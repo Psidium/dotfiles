@@ -32,7 +32,7 @@ Plugin 'altercation/vim-colors-solarized.git'
 " airline (powerline but lighter
 Plugin 'bling/vim-airline.git'
 " minimap on vim
-Plugin 'severin-lemaignan/vim-minimap
+Plugin 'severin-lemaignan/vim-minimap'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
