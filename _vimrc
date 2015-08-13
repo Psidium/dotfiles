@@ -31,6 +31,8 @@ Plugin 'tpope/vim-surround.git'
 Plugin 'altercation/vim-colors-solarized.git'
 " airline (powerline but lighter
 Plugin 'bling/vim-airline.git'
+" minimap on vim
+Plugin 'severin-lemaignan/vim-minimap
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -57,9 +59,6 @@ let g:syntastic_style_error_symbol = '>'
 let g:syntastic_warning_symbol = '!'
 let g:syntastic_style_warning_symbol = '>'
 
-" add haskell to the path so ghc_mod works 
-let $PATH=$PATH.':/Library/Haskell/bin:/Library/Haskell/bin'
-
 " "TurtleOnATree" it's actually for faster MacVim
 set ttyfast
 set lazyredraw
@@ -67,8 +66,6 @@ set lazyredraw
 "autocompletion for filenames
 set wildmode=longest,list,full
 set wildmenu
-
-let $PATH='/usr/local/bin:' . $PATH
 
 :au FocusLost * :wa "Save on focus lost
 
@@ -93,7 +90,10 @@ command! Q :q
 
 "" poweline support
 set guifont=Inconsolata\ for\ Powerline:h14
-
+set encoding=utf-8
+set t_Co=256
+"hide whitespace if there's a char after it
+set fillchars+=stl:\ ,stlnc:\
 
 " highlight vertical column of cursor #does this work?
 au WinLeave * set nocursorline nocursorcolumn

@@ -248,8 +248,3 @@ endif
 map <C-n> :cn<CR>
 map <C-p> :cp<CR>
 
-" Easy navigation between splits. Instead of ctrl-w + j. Just ctrl-j
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
