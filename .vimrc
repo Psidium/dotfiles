@@ -2,7 +2,13 @@
 " cause the code is exactly like a turtle on a tree: I don't know who put it
 " up there, I don't know why is he up there, but I might brake something if I
 " try to took him out there, so I'll just leave the turtle up there 
-set shell=/bin/bash
+if has("win32") || has("win64") || has("win16")
+    set shell=$COMSPEC " If on windows, shell is cmd.exe
+    source $VIMRUNTIME/mswin.vim
+    behave mswin
+else
+    set shell=/bin/bash
+endif
 runtime macros/matchit.vim
 
 set nocompatible              " be iMproved, required
@@ -21,6 +27,10 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic.git'
 " Surround words lines and blocks with { [ "' EVERYTHING
 Plugin 'tpope/vim-surround.git'
+"solarized
+Plugin 'altercation/vim-colors-solarized.git'
+" airline (powerline but lighter
+Plugin 'bling/vim-airline.git'
 " Objc syntax
 Plugin 'kentaroi/cocoa.vim'
 " minimap on vim
@@ -94,33 +104,22 @@ command! Q :q
 "Set the (y)ank command to copy to OSX's  clipboard
 " set clipboard=unnamed " NOT FUN! I'll be sticking to cmd c and v for that
 
-" source powerline
-source /usr/local/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
-set laststatus=2
-
-" poweline support
+"" poweline support
 set guifont=Inconsolata\ for\ Powerline:h15
-let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
 set t_Co=256
+"hide whitespace if there's a char after it
 set fillchars+=stl:\ ,stlnc:\
-if !has('gui')
-  set term=xterm-256color
-endif
-set termencoding=utf-8
-
-" Add powerline suport to macvim 
-if has('gui_running')
-   let s:uname = system('uname')
-   if s:uname == 'Darwin\n'
-      set guifont=Inconsolata\ for\ Powerline:h15
-   endif
-endif
 
 " highlight vertical column of cursor #does this work?
 au WinLeave * set nocursorline nocursorcolumn
 au WinEnter * set cursorline 
 set cursorline 
+
+" airline configs
+set laststatus=2 "makes the second line always visible 
+set encoding=utf-8
+let g:airline_powerline_fonts = 1
 
 " key to insert mode with paste using F2 key # "TurtleOnATree"
 map <F2> :set paste<CR>i
