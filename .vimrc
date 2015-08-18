@@ -2,13 +2,7 @@
 " cause the code is exactly like a turtle on a tree: I don't know who put it
 " up there, I don't know why is he up there, but I might brake something if I
 " try to took him out there, so I'll just leave the turtle up there 
-if has("win32") || has("win64") || has("win16")
-    set shell=$COMSPEC " If on windows, shell is cmd.exe
-    source $VIMRUNTIME/mswin.vim
-    behave mswin
-else
-    set shell=/bin/bash
-endif
+set shell=/bin/bash
 runtime macros/matchit.vim
 
 set nocompatible              " be iMproved, required
@@ -27,14 +21,12 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic.git'
 " Surround words lines and blocks with { [ "' EVERYTHING
 Plugin 'tpope/vim-surround.git'
-"solarized
-Plugin 'altercation/vim-colors-solarized.git'
-" airline (powerline but lighter
-Plugin 'bling/vim-airline.git'
 " Objc syntax
 Plugin 'kentaroi/cocoa.vim'
 " minimap on vim
 Plugin 'severin-lemaignan/vim-minimap'
+" easymotion (like vimium but for vim [???])
+Plugin 'easymotion/vim-easymotion'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -82,12 +74,21 @@ let $PATH='/usr/local/bin:' . $PATH
 " Sessions # "TurtleOnATree" let g:session_autoload = 'no'
 
 " Leader Mappings
-let mapleader = "\<Space>"  
+let mapleader = "\<Space>"
+
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+map <Leader> <Plug>(easymotion-prefix)
+
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_upper = 1
+let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 " This makes the spacebar act like ":" (no need to type anything else) and
 " then a command`
-map <Leader>w :update<CR>
-map <Leader>q :qall<CR>
-
 map <Leader>n :lnext<CR>
 map <Leader>N :lprev<CR>
 
@@ -104,22 +105,33 @@ command! Q :q
 "Set the (y)ank command to copy to OSX's  clipboard
 " set clipboard=unnamed " NOT FUN! I'll be sticking to cmd c and v for that
 
-"" poweline support
+" source powerline
+source /usr/local/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
+set laststatus=2
+
+" poweline support
 set guifont=Inconsolata\ for\ Powerline:h15
+let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
 set t_Co=256
-"hide whitespace if there's a char after it
 set fillchars+=stl:\ ,stlnc:\
+if !has('gui')
+  set term=xterm-256color
+endif
+set termencoding=utf-8
+
+" Add powerline suport to macvim 
+if has('gui_running')
+   let s:uname = system('uname')
+   if s:uname == 'Darwin\n'
+      set guifont=Inconsolata\ for\ Powerline:h15
+   endif
+endif
 
 " highlight vertical column of cursor #does this work?
 au WinLeave * set nocursorline nocursorcolumn
 au WinEnter * set cursorline 
 set cursorline 
-
-" airline configs
-set laststatus=2 "makes the second line always visible 
-set encoding=utf-8
-let g:airline_powerline_fonts = 1
 
 " key to insert mode with paste using F2 key # "TurtleOnATree"
 map <F2> :set paste<CR>i
@@ -199,9 +211,6 @@ set undoreload=10000
 :xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
 :xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
 
-" convert hash rockets
-nmap <leader>rh :%s/\v:(\w+) \=\>/\1:/g<cr>
-
 " Tab completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
@@ -216,9 +225,6 @@ function! InsertTabWrapper()
     endif
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
 
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
