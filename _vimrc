@@ -76,8 +76,6 @@ set wildmenu
 " Leader Mappings
 let mapleader = "\<Space>"
 
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
 map <Leader> <Plug>(easymotion-prefix)
 
 " Turn on case insensitive feature
@@ -86,9 +84,6 @@ let g:EasyMotion_use_upper = 1
 let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
-let mapleader = "\<Space>"  
-" This makes the spacebar act like ":" (no need to type anything else) and
-" then a command`
 map <Leader>n :lnext<CR>
 map <Leader>N :lprev<CR>
 
