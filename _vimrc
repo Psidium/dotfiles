@@ -33,6 +33,8 @@ Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'bling/vim-airline.git'
 " minimap on vim
 Plugin 'severin-lemaignan/vim-minimap'
+" easymotion (like vimium but for vim [???])
+Plugin 'easymotion/vim-easymotion'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -72,12 +74,21 @@ set wildmenu
 " Sessions # "TurtleOnATree" let g:session_autoload = 'no'
 
 " Leader Mappings
+let mapleader = "\<Space>"
+
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+map <Leader> <Plug>(easymotion-prefix)
+
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_upper = 1
+let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
 let mapleader = "\<Space>"  
 " This makes the spacebar act like ":" (no need to type anything else) and
 " then a command`
-map <Leader>w :update<CR>
-map <Leader>q :qall<CR>
-
 map <Leader>n :lnext<CR>
 map <Leader>N :lprev<CR>
 
@@ -88,6 +99,8 @@ map <Leader>p :!python %<CR>
 command! W :w
 command! Q :q
 
+" type jj to leave insert mode
+:inoremap jj <Esc>
 "" poweline support
 set guifont=Inconsolata\ for\ Powerline:h14
 set encoding=utf-8
@@ -184,9 +197,6 @@ set undoreload=10000
 :xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
 :xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
 
-" convert hash rockets
-nmap <leader>rh :%s/\v:(\w+) \=\>/\1:/g<cr>
-
 " Tab completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
@@ -202,9 +212,6 @@ function! InsertTabWrapper()
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
-
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
@@ -217,6 +224,12 @@ let g:html_indent_tags = 'li\|p'
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
 " Local config
 if filereadable($HOME . '/.vimrc.local')
