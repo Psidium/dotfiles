@@ -6,8 +6,20 @@
 			},
 			{
 				"function": "powerline.segments.common.time.date",
-				"priority": 10
+				"priority": 20,
+                "args": { "format": "%e/%m/%y %l:%M%p",
+                "istime": true
+                }
 			},
+            {
+                "function": "powerline.segments.common.wthr.weather",
+                "priority": 15,
+                "args": {"unit": "C",
+                "temp_coldest": -5,
+                "temp_hottest": 40,
+                "location_query": "Sao Leopoldo, RS, BR"
+                }
+            },
 			{
 				"function": "powerline.segments.common.env.user",
 				"priority": 30
@@ -18,7 +30,10 @@
 			},
 			{
 				"function": "powerline.segments.shell.cwd",
-				"priority": 10
+				"priority": 10,
+                "args": {"use_path_separator": true,
+                "shorten_home": true
+                }
 			},
 			{
 				"function": "powerline.segments.shell.jobnum",
