@@ -8,7 +8,7 @@ if has("win32") || has("win64") || has("win16")
     behave mswin
 else
     set shell=/bin/bash
-set shell=/bin/bash
+endif
 runtime macros/matchit.vim
 
 set nocompatible              " be iMproved, required
@@ -35,6 +35,10 @@ Plugin 'bling/vim-airline.git'
 Plugin 'severin-lemaignan/vim-minimap'
 " easymotion (like vimium but for vim [???])
 Plugin 'easymotion/vim-easymotion'
+" Auto close brackets (Cry)
+Plugin 'vim-scripts/AutoClose'
+" Syntax highlight for fish scripts
+Bundle 'dag/vim-fish'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -42,7 +46,7 @@ filetype plugin indent on    " required
 " good :(
 set omnifunc=syntaxcomplete#Complete
 
-
+"let g:syntastic_debug = 3
 " Configurations for Syntastic
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_open = 1
@@ -55,10 +59,11 @@ let g:syntastic_haskell_checkers = ['ghc_mod', 'hlint']
 " systemPath
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_cpp_checkers = ['gcc']
-let g:syntastic_python_checkers = ['python'] 
+let g:syntastic_python_checkers = ['pylint', 'python'] 
 let g:syntastic_java_checkers = ['javac'] " comes with the jdk
 let g:syntastic_vim_checkers = ['vint'] " pip install vim-vint
 let g:syntastic_ruby_checkers = ['rubylint'] " gem install ruby-lint
+let g:syntastic_verilog_checkers = ['iverilog']
 let g:syntastic_error_symbol = 'X'
 let g:syntastic_style_error_symbol = '>'
 let g:syntastic_warning_symbol = '!'
@@ -84,8 +89,6 @@ let $PATH='/usr/local/bin:' . $PATH
 " Leader Mappings
 let mapleader = "\<Space>"
 
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
 map <Leader> <Plug>(easymotion-prefix)
 
 " Turn on case insensitive feature
@@ -95,8 +98,6 @@ let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ;'
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
-" This makes the spacebar act like ":" (no need to type anything else) and
-" then a command`
 map <Leader>n :lnext<CR>
 map <Leader>N :lprev<CR>
 
@@ -110,7 +111,7 @@ command! Q :q
 " type jj to leave insert mode
 :inoremap jj <Esc>
 "" poweline support
-set guifont=Inconsolata\ for\ Powerline:h14
+set guifont=Inconsolata\ for\ Powerline:h15
 set encoding=utf-8
 set t_Co=256
 "hide whitespace if there's a char after it
