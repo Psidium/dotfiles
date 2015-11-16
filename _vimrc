@@ -35,6 +35,16 @@ Plugin 'bling/vim-airline.git'
 Plugin 'severin-lemaignan/vim-minimap'
 " easymotion (like vimium but for vim [???])
 Plugin 'easymotion/vim-easymotion'
+" autoformatter with lots of defaults (I want js-beautify) (:Autoformat)
+Plugin 'Chiel92/vim-autoformat'
+" Automatic insert the closing parameters
+Plugin 'Raimondi/delimitMate'
+" Use :CtrlP to search for files
+Plugin 'ctrlpvim/ctrlp.vim'
+" Just leave here to let vim work well with json
+Plugin 'helino/vim-json' 
+" Better javascript syntax
+Plugin 'pangloss/vim-javascript'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -93,7 +103,7 @@ map <Leader>p :!python %<CR>
 " My fat finger doesn't get out of shift in time, so I'll add this here
 command! W :w
 command! Q :q
-
+ 
 " type jj to leave insert mode
 :inoremap jj <Esc>
 "" poweline support
@@ -138,6 +148,7 @@ set hlsearch      " highlight matches
 set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
 
+
 " Fuzzy finder: ignore stuff that can't be opened, and generated files
 let g:fuzzy_ignore = '*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**'
 
@@ -159,10 +170,10 @@ nnoremap K :/<C-R><C-W>/<CR>
 " 4 spaces tabs
 set tabstop=4
 set shiftwidth=4
-set expandtab
+"set expandtab
 
 " Display extra whitespace
-set list listchars=tab:»·,trail:·
+"set list listchars=tab:»·,trail:·
 
 :set smartcase
 :set ignorecase
