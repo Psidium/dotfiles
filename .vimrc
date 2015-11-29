@@ -39,12 +39,31 @@ Plugin 'easymotion/vim-easymotion'
 Plugin 'vim-scripts/AutoClose'
 " Syntax highlight for fish scripts
 Bundle 'dag/vim-fish'
+"YouCompleteMe (must build in the platform!)
+Bundle 'Valloric/YouCompleteMe'
+"tern: autocomplete and analysis in javascript (must npm install in the
+"directory)
+Bundle 'ternjs/tern_for_vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " Enable Omni autocompletion, an code completion built inside of vim (not that
 " good :(
-set omnifunc=syntaxcomplete#Complete
+""set omnifunc=syntaxcomplete#Complete
+autocmd FileType javascript setlocal omnifunc=tern#Complete
+"{
+"  "ecmaVersion": 5,
+"  "libs": [
+"    "browser",
+"    "jquery"
+"  ],
+"  "loadEagerly": [
+"    "./sapui5/openui5-sdk-1-2/resources/sap-ui-core-all-dbg.js"
+"  ],
+"  "plugins": {
+"      "cordovajs": {}
+"  }
+"}
 
 "let g:syntastic_debug = 3
 " Configurations for Syntastic
