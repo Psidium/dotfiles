@@ -11,4 +11,6 @@ set fish_function_path $fish_function_path "/usr/local/lib/python2.7/site-packag
 
 powerline-setup
 
+alias tvim "mvim --remote-tab-silent"
+
 eval (docker-machine env default)
