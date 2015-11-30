@@ -37,6 +37,14 @@ Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'easymotion/vim-easymotion'
 " Auto close brackets (Cry)
 Plugin 'vim-scripts/AutoClose'
+" autoformatter with lots of defaults (I want js-beautify) (:Autoformat)
+Plugin 'Chiel92/vim-autoformat'
+" Use :CtrlP to search for files
+Plugin 'ctrlpvim/ctrlp.vim'
+" Just leave here to let vim work well with json
+Plugin 'helino/vim-json'
+" Better javascript syntax
+Plugin 'pangloss/vim-javascript'
 " Syntax highlight for fish scripts
 Bundle 'dag/vim-fish'
 "YouCompleteMe (must build in the platform!)
@@ -94,6 +102,7 @@ let $PATH=$PATH.':/Library/Haskell/bin:/Library/Haskell/bin'
 " "TurtleOnATree" it's actually for faster MacVim
 set ttyfast
 set lazyredraw
+set antialias
 
 "autocompletion for filenames
 set wildmode=longest,list,full
@@ -199,7 +208,6 @@ set list listchars=tab:»·,trail:·
 
 :set smartcase
 :set ignorecase
-:set noantialias
 
 " Color scheme
 colorscheme solarized
