@@ -52,6 +52,8 @@ Bundle 'Valloric/YouCompleteMe'
 "tern: autocomplete and analysis in javascript (must npm install in the
 "directory)
 Bundle 'ternjs/tern_for_vim'
+
+Bundle 'artur-shaik/vim-javacomplete2'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -72,6 +74,22 @@ autocmd FileType javascript setlocal omnifunc=tern#Complete
 "      "cordovajs": {}
 "  }
 "}
+"
+"
+"
+
+let g:JavaComplete_LibsPath = '/Users/i849964/.m2/repository/**/*.jar'
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
+nmap <F4> <Plug>(JavaComplete-Imports-Add)
+imap <F4> <Plug>(JavaComplete-Imports-Add)
+
+nmap <F5> <Plug>(JavaComplete-Imports-AddMissing)
+imap <F5> <Plug>(JavaComplete-Imports-AddMissing)
+
+
+nmap <F6> <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <F6> <Plug>(JavaComplete-Imports-RemoveUnused)
 
 "let g:syntastic_debug = 3
 " Configurations for Syntastic
@@ -136,8 +154,6 @@ map <Leader>p :!python %<CR>
 command! W :w
 command! Q :q
 
-" type jj to leave insert mode
-:inoremap jj <Esc>
 "" poweline support
 set guifont=Inconsolata\ for\ Powerline:h15
 set encoding=utf-8
@@ -247,12 +263,6 @@ function! InsertTabWrapper()
     endif
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-
-" Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
 
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'

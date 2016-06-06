@@ -45,6 +45,8 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'helino/vim-json' 
 " Better javascript syntax
 Plugin 'pangloss/vim-javascript'
+" Syntax highlight for fish scripts
+Bundle 'dag/vim-fish'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
