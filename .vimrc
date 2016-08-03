@@ -71,6 +71,22 @@ Plugin 'nvie/vim-flake8'
 " Better handling of javascript and JSX (react)
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+
+
+" Android environment (needs ANDROID_HOME and lots of other variables)
+Plugin 'hsanson/vim-android'
+" Java autocompletion
+Plugin 'artur-shaik/vim-javacomplete2'
+" search for a .git and set the working directory to there
+Plugin 'airblade/vim-rooter'
+
+
+
+" comunicate with other processes (needed by vebugger)
+Plugin 'Shougo/vimproc.vim'
+" a front-end debugger for vim (gdb, jdb)
+Plugin 'idanarye/vim-vebugger'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -84,6 +100,9 @@ au FileType closure au VimEnter * RainbowParenthesesToggle
             \ au Syntax * RainbowParenthesesLoadBraces
 augroup END
 
+augroup java_things
+    autocmd FileType java setlocal omnifunc=javacomplete#Complete
+augroup END
 
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 "let g:syntastic_debug = 3
@@ -97,13 +116,14 @@ let g:syntastic_javascript_checkers = ['eslint'] "npm i -g eslint-plugin-openui5
 let g:syntastic_haskell_checkers = ['ghc_mod', 'hlint'] 
 " cabal update && cabal install ghc-mod and add /Libray/Haskell/bin to
 " systemPath
-let g:syntastic_c_checkers = ['gcc']
-let g:syntastic_cpp_checkers = ['clang_check']
+let g:syntastic_c_checkers = ['make', 'gcc']
+let g:syntastic_cpp_checkers = ['make', 'gcc']
 let g:syntastic_python_checkers = ['pylint', 'python'] 
 let g:syntastic_java_checkers = ['javac'] " comes with the jdk
 let g:syntastic_vim_checkers = ['vint'] " pip install vim-vint
 let g:syntastic_ruby_checkers = ['rubylint'] " gem install ruby-lint
 let g:syntastic_verilog_checkers = ['iverilog']
+let g:syntastic_go_checkers = ['go']
 let g:syntastic_error_symbol = 'X'
 let g:syntastic_style_error_symbol = '>'
 let g:syntastic_warning_symbol = '!'
@@ -152,6 +172,7 @@ map <Leader>p :!python %<CR>
 " My fat finger doesn't get out of shift in time, so I'll add this here
 command! W :w
 command! Q :q
+command! Wq :wq
 command! QQ :q!
 command! Qq :q!
 
@@ -316,3 +337,8 @@ if filereadable($HOME . '/.vimrc.local')
   source ~/.vimrc.local
 endif
 
+" enable per project vimrc
+set exrc
+" should be at the end of vimrc to disable malicious execution of per-project
+" vimrc
+set secure
