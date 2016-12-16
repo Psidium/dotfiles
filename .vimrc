@@ -35,8 +35,8 @@ Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'jnurmine/Zenburn'
 " airline (powerline but lighter
 Plugin 'bling/vim-airline.git'
-" easymotion (like vimium but for vim [???])
-Plugin 'easymotion/vim-easymotion'
+" vim-sneak: s{char}{char} to go to there
+Plugin 'justinmk/vim-sneak'
 " automatically closes the thing
 Plugin 'jiangmiao/auto-pairs'
 " Syntax highlight for fish scripts
@@ -151,18 +151,11 @@ let $PATH='/usr/local/bin:' . $PATH
 " Leader Mappings
 let mapleader = "\<Space>"
 
-map <Leader> <Plug>(easymotion-prefix)
 
 
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-" Turn on case insensitive feature
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_use_upper = 1
-let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 " JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
 map <Leader>n :lnext<CR>
 map <Leader>N :lprev<CR>
 
