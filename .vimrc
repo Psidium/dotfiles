@@ -16,84 +16,88 @@ runtime macros/matchit.vim
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
 
-call vundle#begin()
+" to install Plug, run:
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
 " git helper
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " syntastic MUST WORK UGH
-Plugin 'scrooloose/syntastic.git'
+Plug 'scrooloose/syntastic'
 " Surround words lines and blocks with { [ "' EVERYTHING
-Plugin 'tpope/vim-surround.git'
+Plug 'tpope/vim-surround'
 "solarized
-Plugin 'altercation/vim-colors-solarized.git'
+Plug 'altercation/vim-colors-solarized'
+Plug 'editorconfig/editorconfig-vim'
 
-Plugin 'jnurmine/Zenburn'
+Plug 'jnurmine/Zenburn'
 " airline (powerline but lighter
-Plugin 'bling/vim-airline.git'
+Plug 'bling/vim-airline'
 " vim-sneak: s{char}{char} to go to there
-Plugin 'justinmk/vim-sneak'
+Plug 'justinmk/vim-sneak'
 " automatically closes the thing
-Plugin 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 " Syntax highlight for fish scripts
-Plugin 'dag/vim-fish'
+Plug 'dag/vim-fish', {'for': 'fish'}
 "YouCompleteMe (must build in the platform!)
-Plugin 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 "YCM generator for cmake et al
-Plugin 'rdnetto/YCM-Generator'
-"tern: autocomplete and analysis in javascript (must npm install in the
-"directory)
-Plugin 'ternjs/tern_for_vim'
+"Plug 'rdnetto/YCM-Generator'
 
-Plugin 'kien/ctrlp.vim'
+Plug 'Shougo/neocomplete.vim'
+
+" open files by pressign ctrl + P
+Plug 'kien/ctrlp.vim'
 
 "closure plugins 
 " vim-freplace provides a REPL for Closure (cpp runs the command under the
 " cursor) MUST run lein repl vefore opening vim to use this
-Plugin 'tpope/vim-fireplace'
+Plug 'tpope/vim-fireplace', {'for': 'clojure'}
 " Rainbow parentheses helps seeing scopes withing brackets and parethesis
-Plugin 'kien/rainbow_parentheses.vim'
+Plug 'kien/rainbow_parentheses.vim', {'for': 'clojure'}
 
 " Autoformat
-Plugin 'Chiel92/vim-autoformat'
+Plug 'Chiel92/vim-autoformat'
 
 " pretty straightforward right
-Plugin 'vim-scripts/indentpython.vim'
+Plug 'vim-scripts/indentpython.vim', {'for': 'python'}
 "better syntastic addon for python
-Plugin 'nvie/vim-flake8'
+Plug 'nvie/vim-flake8', {'for': 'python'}
 
 
 
 " Better handling of javascript and JSX (react)
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'mxw/vim-jsx', {'for': 'javascript'}
+"tern: autocomplete and analysis in javascript (must npm install in the
+"directory)
+Plug 'ternjs/tern_for_vim', {'for': 'javascript', 'do': 'npm install --global tern'}
+Plug 'bigfish/vim-js-context-coloring', {'for': 'javascript', 'do': 'npm install --update'}
 
 " Android environment (needs ANDROID_HOME and lots of other variables)
-Plugin 'hsanson/vim-android'
+Plug 'hsanson/vim-android', {'for': 'java'}
 " Java autocompletion
-Plugin 'artur-shaik/vim-javacomplete2'
+Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}
 " search for a .git and set the working directory to there
-Plugin 'airblade/vim-rooter'
+Plug 'airblade/vim-rooter'
 
+" Bwetter horizontal split
+Plug 'wellle/visual-split.vim'
 
 
 " comunicate with other processes (needed by vebugger)
-Plugin 'Shougo/vimproc.vim'
+Plug 'Shougo/vimproc.vim', {'do': 'make'}
 " a front-end debugger for vim (gdb, jdb)
-Plugin 'idanarye/vim-vebugger'
+Plug 'idanarye/vim-vebugger'
 
-call vundle#end()            " required
+call plug#end()            " required
 filetype plugin indent on    " required
 
 
 
 " automatically turn rainbow parethesis on when opening vim
-augroup closure_things  
+augroup closure_things
 au FileType closure au VimEnter * RainbowParenthesesToggle
             \ au Syntax * RainbowParenthesesLoadRound
             \ au Syntax * RainbowParenthesesLoadSquare
@@ -104,6 +108,12 @@ augroup java_things
     autocmd FileType java setlocal omnifunc=javacomplete#Complete
 augroup END
 
+" JSDoc syntax hihglight
+let g:javascript_plugin_jsdoc = 1
+" set function name highlighted
+let g:js_context_colors_highlight_function_names = 1
+" disable js estranho by default
+let g:js_context_colors_enabled = 0
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 "let g:syntastic_debug = 3
 " Configurations for Syntastic
@@ -130,14 +140,6 @@ let g:syntastic_warning_symbol = '!'
 let g:syntastic_style_warning_symbol = '>'
 
 
-" ignore ycm asking what to do
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_autoclose_preview_window_after_completion=1
-
-" add haskell to the path so ghc_mod works 
-let $PATH=$PATH.':/Library/Haskell/bin:/Library/Haskell/bin'
-
 " "TurtleOnATree" it's actually for faster MacVim
 set ttyfast
 set lazyredraw
@@ -151,16 +153,9 @@ let $PATH='/usr/local/bin:' . $PATH
 " Leader Mappings
 let mapleader = "\<Space>"
 
-
-
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
 " JK motions: Line motions
 map <Leader>n :lnext<CR>
 map <Leader>N :lprev<CR>
-
-" Run current file as python
-map <Leader>p :!python %<CR>
 
 " My fat finger doesn't get out of shift in time, so I'll add this here
 command! W :w
@@ -200,7 +195,6 @@ set ruler         " show the cursor position all the time
 set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
 set hlsearch      " highlight matches
-set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
 
 " Fuzzy finder: ignore stuff that can't be opened, and generated files
@@ -234,9 +228,45 @@ augroup py_identations
     au Filetype python set textwidth=79
 augroup END
 
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" Close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+augroup neocomplete
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
 "point the omnicompletion for tern on js
-augroup js_tern
-    autocmd FileType javascript setlocal omnifunc=tern#Complete
+let g:neocomplete#sources#omni#functions = 
+        \ { 'javascript': [
+        \       'tern#Complete',
+        \   ]
+        \ }
 "{
 "  "ecmaVersion": 5,
 "  "libs": [
@@ -250,7 +280,6 @@ augroup js_tern
 "      "cordovajs": {}
 "  }
 "}
-augroup END
 
 "python with virtualenv support
 py << EOF
@@ -262,10 +291,10 @@ if 'VIRTUAL_ENV' in os.environ:
     execfile(activate_this, dict(__file__=activate_this))
 EOF
 let python_highlight_all=1
-let g:ycm_python_binary_path = '/usr/local/bin/python3'
+"let g:ycm_python_binary_path = '/usr/local/bin/python3'
 
 " Display extra whitespace
-set list listchars=tab:»·,trail:·
+set list listchars=tab:·\ ,trail:·
 
 set smartcase
 set ignorecase
