@@ -23,6 +23,8 @@ call plug#begin('~/.vim/plugged')
 
 " git helper
 Plug 'tpope/vim-fugitive'
+" git diff shower
+Plug 'airblade/vim-gitgutter'
 " syntastic MUST WORK UGH
 Plug 'scrooloose/syntastic'
 " Surround words lines and blocks with { [ "' EVERYTHING
@@ -164,6 +166,9 @@ command! Wq :wq
 command! QQ :q!
 command! Qq :q!
 
+
+" faster syntastic, git gutter and such
+set updatetime=250
 "" poweline support
 set guifont=Inconsolata\ for\ Powerline:h15
 set t_Co=256
@@ -314,12 +319,6 @@ set undofile
 set undolevels=1000
 set undoreload=10000
 
-:nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-:nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
-:nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-:xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-:xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-
 " Tab completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
@@ -335,12 +334,6 @@ function! InsertTabWrapper()
 endfunction
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
-" Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
-
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
@@ -353,6 +346,14 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
+" search visually selected text with *
+vnoremap <silent> * :<C-U>
+          \let old_reg=getreg('"')<bar>
+          \let old_regmode=getregtype('"')<cr>
+          \gvy/<C-R><C-R>=substitute(
+          \escape(@", '\\/.*$^~[]'), '\n', '\\n', 'g')<cr><cr>
+          \:call setreg('"', old_reg, old_regmode)<cr>
 
 " Local config
 if filereadable($HOME . '/.vimrc.local')
