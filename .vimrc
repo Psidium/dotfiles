@@ -68,6 +68,10 @@ Plug 'vim-scripts/indentpython.vim', {'for': 'python'}
 Plug 'nvie/vim-flake8', {'for': 'python'}
 
 
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'jistr/vim-nerdtree-tabs'
+
 
 " Better handling of javascript and JSX (react)
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
@@ -141,10 +145,19 @@ let g:syntastic_style_error_symbol = '>'
 let g:syntastic_warning_symbol = '!'
 let g:syntastic_style_warning_symbol = '>'
 
+" Open NERDtree automatically
+let g:nerdtree_tabs_open_on_console_startup = 1
+let g:nerdtree_tabs_autofind = 1
+let g:nerdtree_tabs_focus_on_files = 1
+
+" space t opens nerdtree
+map <Leader>t :NERDTreeTabsToggle<CR>
+
+map <c-s-[> :bp<CR>
+map <c-s-]> :bn<CR>
 
 " "TurtleOnATree" it's actually for faster MacVim
 set ttyfast
-set lazyredraw
 
 "autocompletion for filenames
 set wildmode=longest,list,full
@@ -346,6 +359,12 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+
+" Move lines and blocks with Ctrl Shift  + j and ctrl shift  + k
+nnoremap <c-s-j> :m .+1<CR>
+nnoremap <c-s-k> :m .-2<CR>
+vnoremap <c-s-j> :m '>+1<CR>gv
+vnoremap <c-s-k> :m '<-2<CR>gv
 
 " search visually selected text with *
 vnoremap <silent> * :<C-U>
