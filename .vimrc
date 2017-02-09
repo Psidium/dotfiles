@@ -145,6 +145,9 @@ let g:syntastic_style_error_symbol = '>'
 let g:syntastic_warning_symbol = '!'
 let g:syntastic_style_warning_symbol = '>'
 
+" Disable vim-rooter automatically
+let g:rooter_manual_only = 1
+
 " Open NERDtree automatically
 let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_autofind = 1
