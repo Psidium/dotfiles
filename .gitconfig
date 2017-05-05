@@ -1,0 +1,16 @@
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	pa = push --set-upstream origin HEAD
+[user]
+	name = Gabriel Borges
+	email = gabriel.borges@sap.com
+[merge]
+	conflictstyle = diff3
+[commit]
+	verbose = true
+[diff]
+	indentHeuristic = true
+[submodule]
+	fetchJobs = 4
+[credential]
+	helper = cache
