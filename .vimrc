@@ -3,7 +3,7 @@ scriptencoding UTF-8
 "During this file you might find "TurtleOnATree" in some comments, that's
 " cause the code is exactly like a turtle on a tree: I don't know who put it
 " up there, I don't know why is he up there, but I might brake something if I
-" try to took him out there, so I'll just leave the turtle up there 
+" try to take him out of there, so I'll just leave the turtle up there 
 if has('win32') || has('win64') || has('win16')
     set shell=$COMSPEC " If on windows, shell is cmd.exe
     source $VIMRUNTIME/mswin.vim
@@ -14,8 +14,15 @@ endif
 runtime macros/matchit.vim
 
 set nocompatible              " be iMproved, required
-filetype off                  " required
 
+function! InstallPackage(arg)
+    if executable('yum')
+        let out = "sudo yum install -y "
+    elseif executable('brew')
+        let out = "brew install "
+    endif
+    return out . a:arg
+endfunction
 
 " to install Plug, run:
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -48,6 +55,9 @@ Plug 'dag/vim-fish', {'for': 'fish'}
 "Plug 'rdnetto/YCM-Generator'
 
 Plug 'Shougo/neocomplete.vim'
+
+" show all tags in a beautiful widnow
+Plug 'majutsushi/tagbar'
 
 " open files by pressign ctrl + P
 Plug 'kien/ctrlp.vim'
@@ -91,7 +101,16 @@ Plug 'airblade/vim-rooter'
 " Bwetter horizontal split
 Plug 'wellle/visual-split.vim'
 
+" add goto definition in vim
+Plug 'Yohanna/vim-gotosymbol'
 
+" Helpers for the following plugin
+Plug 'xolox/vim-misc'
+" load tags automatically
+Plug 'xolox/vim-easytags', {'do': InstallPackage('ctags') . '; npm install -g jsctags' }
+
+" Highlight every word under cursor
+Plug 'itchyny/vim-cursorword'
 " comunicate with other processes (needed by vebugger)
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 " a front-end debugger for vim (gdb, jdb)
@@ -101,6 +120,8 @@ call plug#end()            " required
 filetype plugin indent on    " required
 
 
+" Leader Mappings
+let mapleader = "\<Space>"
 
 " automatically turn rainbow parethesis on when opening vim
 augroup closure_things
@@ -153,11 +174,22 @@ let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_autofind = 1
 let g:nerdtree_tabs_focus_on_files = 1
 
-" space t opens nerdtree
-map <Leader>t :NERDTreeTabsToggle<CR>
 
-map <c-s-[> :bp<CR>
-map <c-s-]> :bn<CR>
+" enable <Leader> and a shit other stuff in debug
+let g:vebugger_leader = 1
+
+
+" space nt opens nerdtree
+nmap <silent> <leader>nt :NERDTreeToggle<CR>
+" space tg opens tagbar
+nmap <silent> <leader>tb :TagbarToggle<CR>
+" Ctags, check the parent directories for tags, too.
+set tags=./.tags;,./tags
+let g:easytags_dynamic_files = 1
+let g:easytags_file = '~/.vim/tags'
+let g:easytags_updatetime_min=12000
+let g:easytags_async = 1
+
 
 " "TurtleOnATree" it's actually for faster MacVim
 set ttyfast
@@ -166,10 +198,6 @@ set ttyfast
 set wildmode=longest,list,full
 set wildmenu
 
-let $PATH='/usr/local/bin:' . $PATH
-
-" Leader Mappings
-let mapleader = "\<Space>"
 
 " JK motions: Line motions
 map <Leader>n :lnext<CR>
@@ -217,6 +245,7 @@ set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
 set hlsearch      " highlight matches
 set autowrite     " Automatically :write before running commands
+set breakindent   " break line without breaking indent" (reallyyyy goooooood)
 
 " Fuzzy finder: ignore stuff that can't be opened, and generated files
 let g:fuzzy_ignore = '*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**'
@@ -237,7 +266,6 @@ endif
 if filereadable(expand('~/.vimrc.bundles'))
   source ~/.vimrc.bundles
 endif
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -251,6 +279,34 @@ augroup END
 
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3"
+
+" Recommended key-mappings.
+"<CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "") ."\<CR>"
+  "For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+"<TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ?"\<C-n>" :
+      \ <SID>check_back_space() ?"\<TAB>" :
+      \ neocomplete#start_manual_complete()
+function! s:check_back_space()"{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+inoremap <expr><Down> pumvisible() ?"\<C-n>" : "\<Down>"
+inoremap <expr><Up> pumvisible() ?"\<C-p>" : "\<Up>"
+"<C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ?"\<C-y>" : "\<Space>"
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
@@ -269,9 +325,11 @@ augroup neocomplete
     " Enable omni completion.
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType javascript setlocal omnifunc=tern#Complete
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " space gd goes to definition 
+    autocmd FileType javascript nmap <silent> <leader>gd :TernDef<CR>
 augroup END
 
 " Enable heavy omni completion.
@@ -282,25 +340,26 @@ let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-"point the omnicompletion for tern on js
-let g:neocomplete#sources#omni#functions = 
-        \ { 'javascript': [
-        \       'tern#Complete',
-        \   ]
-        \ }
-"{
-"  "ecmaVersion": 5,
-"  "libs": [
-"    "browser",
-"    "jquery"
-"  ],
-"  "loadEagerly": [
-"    "./sapui5/openui5-sdk-1-2/resources/sap-ui-core-all-dbg.js"
-"  ],
-"  "plugins": {
-"      "cordovajs": {}
-"  }
-"}
+
+" Ctags, check the parent directories for tags, too.
+set tags=./.tags;,./tags
+let g:easytags_dynamic_files = 1
+let g:easytags_file = '~/.vim/tags'
+let g:easytags_updatetime_min=12000
+let g:easytags_async = 1
+let g:easytags_languages = {
+            \   'javascript': {
+            \       'cmd': 'jsctags',
+            \       'args': [],
+            \       'fileoutput_opt': '-f',
+            \       'stdout_opt': '-f-',
+            \       'recurse_flag': '-R'
+            \   }
+            \}
+" ctags
+let g:tagbar_type_javascript = {
+    \ 'ctagsbin' : substitute(system('which jsctags'), '\n\+$', '', '')
+\ }
 
 "python with virtualenv support
 py << EOF
@@ -335,21 +394,6 @@ set undofile
 set undolevels=1000
 set undoreload=10000
 
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-set wildmode=list:longest,list:full
-set complete=.,w,t
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~# '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
@@ -364,12 +408,12 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Move lines and blocks with Ctrl Shift  + j and ctrl shift  + k
-nnoremap <c-s-j> :m .+1<CR>
-nnoremap <c-s-k> :m .-2<CR>
-vnoremap <c-s-j> :m '>+1<CR>gv
-vnoremap <c-s-k> :m '<-2<CR>gv
+nnoremap <c-n> :m .+1<CR>
+nnoremap <c-m> :m .-2<CR>
+vnoremap <c-n> :m '>+1<CR>gv
+vnoremap <c-m> :m '<-2<CR>gv
 
-" search visually selected text with *
+" search visually selected text with 
 vnoremap <silent> * :<C-U>
           \let old_reg=getreg('"')<bar>
           \let old_regmode=getregtype('"')<cr>
