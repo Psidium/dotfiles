@@ -11,6 +11,7 @@ switch (uname)
     case Linux
         rvm default
         echo Hi Tux!
+        source ~/.config/fish/functions/tesoro.fish
     case Darwin
         powerline-daemon -q
 

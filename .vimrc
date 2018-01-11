@@ -77,6 +77,7 @@ Plug 'vim-scripts/indentpython.vim', {'for': 'python'}
 "better syntastic addon for python
 Plug 'nvie/vim-flake8', {'for': 'python'}
 
+Plug 'terryma/vim-multiple-cursors'
 
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -172,7 +173,7 @@ let g:rooter_manual_only = 1
 " Open NERDtree automatically
 let g:nerdtree_tabs_open_on_console_startup = 1
 let g:nerdtree_tabs_autofind = 1
-let g:nerdtree_tabs_focus_on_files = 1
+let g:nerdtree_tabs_focus_on_files = 5
 
 
 " enable <Leader> and a shit other stuff in debug
@@ -340,6 +341,18 @@ let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
+" Disable neocomplete when usign multipleCursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
+
 
 " Ctags, check the parent directories for tags, too.
 set tags=./.tags;,./tags
@@ -402,16 +415,16 @@ set splitbelow
 set splitright
 
 " Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+"nnoremap <C-j> <C-w>j
+"nnoremap <C-k> <C-w>k
+"nnoremap <C-h> <C-w>h
+"nnoremap <C-l> <C-w>l
 
 " Move lines and blocks with Ctrl Shift  + j and ctrl shift  + k
-nnoremap <c-n> :m .+1<CR>
-nnoremap <c-m> :m .-2<CR>
-vnoremap <c-n> :m '>+1<CR>gv
-vnoremap <c-m> :m '<-2<CR>gv
+nnoremap <c-j> :m .+1<CR>
+nnoremap <c-k> :m .-2<CR>
+vnoremap <c-j> :m '>+1<CR>gv
+vnoremap <c-k> :m '<-2<CR>gv
 
 " search visually selected text with 
 vnoremap <silent> * :<C-U>
