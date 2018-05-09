@@ -30,16 +30,18 @@ call plug#begin('~/.vim/plugged')
 
 " git helper
 Plug 'tpope/vim-fugitive'
+" :%S subtitute keeping case
+Plug 'tpope/vim-abolish'
 " git diff shower
 Plug 'airblade/vim-gitgutter'
 " syntastic MUST WORK UGH
 Plug 'scrooloose/syntastic'
 " Surround words lines and blocks with { [ "' EVERYTHING
 Plug 'tpope/vim-surround'
-"solarized
-Plug 'altercation/vim-colors-solarized'
 Plug 'editorconfig/editorconfig-vim'
 
+" themes
+Plug 'mhartington/oceanic-next'
 Plug 'jnurmine/Zenburn'
 " airline (powerline but lighter
 Plug 'bling/vim-airline'
@@ -54,9 +56,25 @@ Plug 'dag/vim-fish', {'for': 'fish'}
 "YCM generator for cmake et al
 "Plug 'rdnetto/YCM-Generator'
 
-Plug 'Shougo/neocomplete.vim'
+" typescript syntax
+Plug 'HerringtonDarkholme/yats.vim'
 
-" show all tags in a beautiful widnow
+"Deoplete is a completion helper guy (uses languageclient)
+if has('nvim') 
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } 
+else 
+    Plug 'Shougo/deoplete.nvim' 
+    Plug 'roxma/nvim-yarp' 
+    Plug 'roxma/vim-hug-neovim-rpc' 
+endif 
+
+" completion from syntax!
+Plug 'Shougo/neco-syntax'
+" Typescript completion
+Plug 'mhartington/nvim-typescript'
+
+Plug 'rdolgushin/groovy.vim'
+" show all tags in a beautiful widnow 
 Plug 'majutsushi/tagbar'
 
 " open files by pressign ctrl + P
@@ -85,17 +103,12 @@ Plug 'jistr/vim-nerdtree-tabs'
 
 
 " Better handling of javascript and JSX (react)
-Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'othree/yajs.vim'
 Plug 'mxw/vim-jsx', {'for': 'javascript'}
-"tern: autocomplete and analysis in javascript (must npm install in the
-"directory)
-Plug 'ternjs/tern_for_vim', {'for': 'javascript', 'do': 'npm install --global tern'}
-Plug 'bigfish/vim-js-context-coloring', {'for': 'javascript', 'do': 'npm install --update'}
 
+Plug 'tomlion/vim-solidity'
 " Android environment (needs ANDROID_HOME and lots of other variables)
 Plug 'hsanson/vim-android', {'for': 'java'}
-" Java autocompletion
-Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}
 " search for a .git and set the working directory to there
 Plug 'airblade/vim-rooter'
 
@@ -116,6 +129,15 @@ Plug 'itchyny/vim-cursorword'
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
 " a front-end debugger for vim (gdb, jdb)
 Plug 'idanarye/vim-vebugger'
+
+" PlantUML is a program to create UML diagrams
+Plug 'aklt/plantuml-syntax'
+
+"Open any link from vim (dependency to plantuml previewe)
+Plug 'tyru/open-browser.vim'
+Plug 'weirongxu/plantuml-previewer.vim'
+
+
 
 call plug#end()            " required
 filetype plugin indent on    " required
@@ -162,6 +184,8 @@ let g:syntastic_vim_checkers = ['vint'] " pip install vim-vint
 let g:syntastic_ruby_checkers = ['rubylint'] " gem install ruby-lint
 let g:syntastic_verilog_checkers = ['iverilog']
 let g:syntastic_go_checkers = ['go']
+let g:syntastic_enable_r_lintr_checker = 1
+let g:syntastic_r_checkers = ['lintr']
 let g:syntastic_error_symbol = 'X'
 let g:syntastic_style_error_symbol = '>'
 let g:syntastic_warning_symbol = '!'
@@ -227,7 +251,6 @@ set fillchars+=stl:\ ,stlnc:\
 
 " airline configs
 set laststatus=2 "makes the second line always visible 
-let g:airline_powerline_fonts = 1
 
 
 " Command aliases
@@ -257,12 +280,13 @@ if (&t_Co > 2 || has('gui_running')) && !exists('syntax_on')
   syntax on
 endif
 
-if has('gui_running')
-    set background=dark
-    colorscheme solarized
-else
-    colorscheme zenburn
+if (has("termguicolors"))
+    set termguicolors
 endif
+colorscheme OceanicNext
+let g:airline_theme='oceanicnext'
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
 
 if filereadable(expand('~/.vimrc.bundles'))
   source ~/.vimrc.bundles
@@ -278,68 +302,20 @@ augroup py_identations
     au Filetype python set textwidth=79
 augroup END
 
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3"
+" START: DEOPLETE
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+" TODO list of npm packages that need to be globally installed after
+" installing this vimrc
+" javascript-typescript-langserver
 
-" Recommended key-mappings.
-"<CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "") ."\<CR>"
-  "For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-"<TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ?"\<C-n>" :
-      \ <SID>check_back_space() ?"\<TAB>" :
-      \ neocomplete#start_manual_complete()
-function! s:check_back_space()"{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-inoremap <expr><Down> pumvisible() ?"\<C-n>" : "\<Down>"
-inoremap <expr><Up> pumvisible() ?"\<C-p>" : "\<Up>"
-"<C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-"Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ?"\<C-y>" : "\<Space>"
+let g:nvim_typescript#server_path = '/usr/local/bin/tsserver'
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+" Required for operations modifying multiple buffers like rename.
+set hidden
 
-augroup neocomplete
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=tern#Complete
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    " space gd goes to definition 
-    autocmd FileType javascript nmap <silent> <leader>gd :TernDef<CR>
-augroup END
+" END: DEOPLETE
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " Disable neocomplete when usign multipleCursors
 function! Multiple_cursors_before()
@@ -374,24 +350,16 @@ let g:tagbar_type_javascript = {
     \ 'ctagsbin' : substitute(system('which jsctags'), '\n\+$', '', '')
 \ }
 
-"python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
 let python_highlight_all=1
-"let g:ycm_python_binary_path = '/usr/local/bin/python3'
 
 " Display extra whitespace
 set list listchars=tab:·\ ,trail:·
 
 set smartcase
 set ignorecase
-set noantialias
+if !has('nvim')
+    set noantialias
+endif
 
 
 " Highlight line number of where cursor currently is

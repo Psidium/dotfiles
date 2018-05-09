@@ -1,0 +1,20 @@
+#! /bin/bash
+
+CURRENT_PROXY=""
+
+yarn config delete proxy
+yarn config delete https-proxy
+
+npm config set proxy $CURRENT_PROXY
+npm config set https-proxy $CURRENT_PROXY
+
+git config --global --unset http.proxy 
+git config --global --unset https.proxy 
+
+unset HTTPS_PROXY
+unset HTTP_PROXY
+unset https_proxy
+unset http_proxy
+unset NO_PROXY
+unset no_proxy
+

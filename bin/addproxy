@@ -1,0 +1,20 @@
+#! /bin/bash
+
+CURRENT_PROXY=http://proxy.sle.sap.corp:8080
+CURRENT_NO_PROXY="localhost,127.0.0.1,sap-ag.de,sap.corp,corp.sap,co.sap.com,sap.biz,wdf.sap.corp,.wdf.sap.corp,.blrl.sap.corp,.phl.sap.corp,.global.corp.sap,.wdf.sap.corp,.sap-ag.de,.sap.corp,.corp.sap,.co.sap.com,.sap.biz,.successfactors.com,.sap,.corp,.successfactors.com"
+
+yarn config set proxy $CURRENT_PROXY
+yarn config set https-proxy $CURRENT_PROXY
+
+npm config set proxy $CURRENT_PROXY
+npm config set https-proxy $CURRENT_PROXY
+
+git config --global http.proxy $CURRENT_PROXY
+git config --global https.proxy $CURRENT_PROXY
+
+export HTTPS_PROXY=$CURRENT_PROXY
+export HTTP_PROXY=$CURRENT_PROXY
+export https_proxy=$CURRENT_PROXY
+export http_proxy=$CURRENT_PROXY
+export NO_PROXY=$CURRENT_NO_PROXY
+export no_proxy=$CURRENT_NO_PROXY
