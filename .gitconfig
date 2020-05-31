@@ -1,6 +1,11 @@
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
 	pa = push --set-upstream origin HEAD
+    rp = !git pull --rebase && git push
+    chekcout = checkout
+    checout = checkout
+	cehckout = checkout
+	checkou = checkout
 [user]
 	name = Gabriel Borges
 	email = gabriel.borges@sap.com
@@ -16,3 +21,14 @@
 	helper = cache
 [core]
 	autocrlf = input
+	editor = nvim
+[http]
+	sslVerify = false
+[https]
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[remote "origin"]
+	proxy = 
