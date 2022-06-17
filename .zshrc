@@ -6,10 +6,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/opt/curl/bin:$HOME/bin:$PATH
 
+local ME=$(whoami)
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/i849964/.oh-my-zsh"
+export ZSH="/Users/$ME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each oh-my-zsh is loaded, in which case,
@@ -89,6 +90,8 @@ plugins=(git
 	pip
 	vscode
 	zsh-autosuggestions
+    asdf
+    z
 	)
 zstyle ':completion:*' use-cache yes
 
@@ -101,15 +104,20 @@ else
   export EDITOR='nvim'
 fi
 
+export NODE_EXTRA_CA_CERTS=$(echo $HOME/SAPDevelop/concur/qa-certs/conf/*/ca.crt.pem)
+
 #change color of autosuggest
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=242
 export ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
 
+export AUTO_NTFY_DONE_LONGER_THAN=-L20
+export AUTO_NTFY_DONE_UNFOCUSED_ONLY=-b
+source '/Users/psidium/Library/Application Support/ntfy/auto-ntfy-done.sh'
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "/Users/$ME/.jabba/jabba.sh" ] && source "/Users/i849964/.jabba/jabba.sh"
 
-[ -s "/Users/i849964/.jabba/jabba.sh" ] && source "/Users/i849964/.jabba/jabba.sh"
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

@@ -20,8 +20,7 @@ brew install \
     curl \
     youtube-dl \
     htop \
-    wget \
-    &
+    wget
 brew install --cask \
     docker \
     eloston-chromium \
@@ -34,9 +33,7 @@ brew install --cask \
     insomnia \
     intellij-idea \
     iterm2 \
-    &
-
-wait
+    activitywatch
 
 # iterm 2 integration
 curl -L https://iterm2.com/shell_integration/install_shell_integration_and_utilities.sh | bash
@@ -46,8 +43,8 @@ asdf install python latest
 asdf global python latest
 
 asdf plugin add nodejs
-asdf install nodejs 16.14.0
-asdf global nodejs 16.14.0
+asdf install nodejs 14.17.5
+asdf global nodejs 14.17.5
 
 asdf global python latest
 
@@ -75,8 +72,11 @@ rm ~/.zshrc
 ln -s ~/.zshrc $(realpath ../.zshrc)
 
 
+
 wait
-for extension in "arcanis.vscode-zipfs" "dbaeumer.vscode-eslint" "eamodio.gitlens" "EditorConfig.EditorConfig" "esbenp.prettier-vscode" "letmaik.git-tree-compare" "redhat.java" "redhat.vscode-xml" "redhat.vscode-yaml" "streetsidesoftware.code-spell-checker" "VisualStudioExptTeam.vscodeintellicode" "vscjava.vscode-java-debug" "vscjava.vscode-java-dependency" "vscjava.vscode-java-pack" "vscjava.vscode-java-test" "vscjava.vscode-maven" "vscodevim.vim"
+for extension in "activitywatch.aw-watcher-vscode" "apollographql.vscode-apollo" "arcanis.vscode-zipfs" "asvetliakov.snapshot-tools" "bierner.markdown-mermaid" "dbaeumer.vscode-eslint" "eamodio.gitlens" "EditorConfig.EditorConfig" "esbenp.prettier-vscode" "flowtype.flow-for-vscode" "gamunu.vscode-yarn" "jasonnutter.vscode-codeowners" "letmaik.git-tree-compare" "ms-python.python" "ms-python.vscode-pylance" "ms-toolsai.jupyter" "ms-toolsai.jupyter-keymap" "ms-toolsai.jupyter-renderers" "redhat.java" "redhat.vscode-xml" "redhat.vscode-yaml" "streetsidesoftware.code-spell-checker" "tamasfe.even-better-toml" "teamchilla.blueprint" "tomoyukim.vscode-mermaid-editor" "VisualStudioExptTeam.vscodeintellicode" "vscjava.vscode-java-debug" "vscjava.vscode-java-dependency" "vscjava.vscode-java-pack" "vscjava.vscode-java-test" "vscjava.vscode-maven" "vscodevim.vim" "yzhang.markdown-all-in-one"
 do
   code --install-extension $extension --force 
 done
+
+pip install ntfy[telegram]
