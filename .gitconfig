@@ -32,3 +32,5 @@
 	required = true
 [remote "origin"]
 	proxy = 
+[url "https://github.concur.com/"]
+	insteadOf = git@github.concur.com:
