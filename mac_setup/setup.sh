@@ -33,6 +33,8 @@ brew install --cask \
     insomnia \
     intellij-idea \
     iterm2 \
+    hiddenbar \
+    calibre \
     activitywatch
 
 # iterm 2 integration
@@ -43,8 +45,8 @@ asdf install python latest
 asdf global python latest
 
 asdf plugin add nodejs
-asdf install nodejs 14.17.5
-asdf global nodejs 14.17.5
+asdf install nodejs 14.18.2
+asdf global nodejs 14.18.2
 
 asdf global python latest
 
@@ -61,17 +63,25 @@ asdf plugin add ruby
 asdf install ruby 3.1.2
 asdf global ruby 3.1.2
 
-ln -s ~/.vimrc $(realpath ../.vimrc)
+asdf plugin add kubectl
+asdf install kubectl latest
+asdf global kubectl latest
+
+ln -s $(realpath ~/SAPDevelop/dotfiles/.gitconfig) ~/.gitconfig
+
+ln -s $(realpath ../.vimrc) ~/.vimrc
 mkdir -p ~/.config/nvim
-ln -s ~/.config/nvim/init.vim $(realpath ../.config/nvim/init.vim)
+ln -s $(realpath ../.config/nvim/init.vim) ~/.config/nvim/init.vim
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 nvim -c PlugInstall
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 rm ~/.zshrc
-ln -s ~/.zshrc $(realpath ../.zshrc)
-
-
+ln -s $(realpath ../.zshrc) ~/.zshrc
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 wait
 for extension in "activitywatch.aw-watcher-vscode" "apollographql.vscode-apollo" "arcanis.vscode-zipfs" "asvetliakov.snapshot-tools" "bierner.markdown-mermaid" "dbaeumer.vscode-eslint" "eamodio.gitlens" "EditorConfig.EditorConfig" "esbenp.prettier-vscode" "flowtype.flow-for-vscode" "gamunu.vscode-yarn" "jasonnutter.vscode-codeowners" "letmaik.git-tree-compare" "ms-python.python" "ms-python.vscode-pylance" "ms-toolsai.jupyter" "ms-toolsai.jupyter-keymap" "ms-toolsai.jupyter-renderers" "redhat.java" "redhat.vscode-xml" "redhat.vscode-yaml" "streetsidesoftware.code-spell-checker" "tamasfe.even-better-toml" "teamchilla.blueprint" "tomoyukim.vscode-mermaid-editor" "VisualStudioExptTeam.vscodeintellicode" "vscjava.vscode-java-debug" "vscjava.vscode-java-dependency" "vscjava.vscode-java-pack" "vscjava.vscode-java-test" "vscjava.vscode-maven" "vscodevim.vim" "yzhang.markdown-all-in-one"
@@ -80,3 +90,6 @@ do
 done
 
 pip install ntfy[telegram]
+
+
+ln -s $(realpath ../.ntfy.yml) ~/.ntfy.yml

@@ -86,7 +86,7 @@ plugins=(git
 	yarn
 	node
 	nvm
-	osx
+	macos
 	pip
 	vscode
 	zsh-autosuggestions
@@ -110,14 +110,14 @@ export NODE_EXTRA_CA_CERTS=$(echo $HOME/SAPDevelop/concur/qa-certs/conf/*/ca.crt
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=242
 export ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
 
+export AUTO_NTFY_DONE_IGNORE="ntfy emacs htop info less mail man meld most mutt nano screen ssh tail tmux top vi vim nvim watch"
 export AUTO_NTFY_DONE_LONGER_THAN=-L20
 export AUTO_NTFY_DONE_UNFOCUSED_ONLY=-b
-source '/Users/psidium/Library/Application Support/ntfy/auto-ntfy-done.sh'
+eval "$(ntfy shell-integration)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -s "/Users/$ME/.jabba/jabba.sh" ] && source "/Users/i849964/.jabba/jabba.sh"
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+[[ ! -f ~/.zshprivate ]] || source ~/.zshprivate
