@@ -1,0 +1,45 @@
+{
+    "telemetry.enableTelemetry": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "evenBetterToml.formatter.indentEntries": true,
+    "evenBetterToml.formatter.indentTables": true,
+    "evenBetterToml.semanticTokens": true,
+    "editor.minimap.enabled": false,
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.colorTheme": "Monokai",
+    "yaml.schemas": {
+      "file:///Users/psidium/.vscode/extensions/atlassian.atlascode-2.10.12/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+    },
+    "atlascode.bitbucket.enabled": false,
+    "atlascode.jira.jqlList": [
+      {
+        "id": "7ed7db3e-7fce-4414-b999-5b10b8bc428d",
+        "enabled": true,
+        "name": "My jira.concur.com Issues",
+        "query": "assignee = currentUser() AND resolution = Unresolved ORDER BY lastViewed DESC",
+        "siteId": "jira.concur.com",
+        "monitor": true
+      }
+    ],
+    "atlascode.jira.statusbar.showProduct": false,
+    "atlascode.jira.statusbar.showUser": true,
+    "atlascode.jira.statusbar.showLogin": false,
+    "atlascode.jira.startWorkBranchTemplate.customPrefixes": [
+      "feat/",
+      "chore/",
+      "fix/"
+    ],
+    "workbench.editor.wrapTabs": true
+  }
+  
