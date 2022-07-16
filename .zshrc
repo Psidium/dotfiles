@@ -6,7 +6,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-export PATH=/usr/local/bin:/usr/local/opt/curl/bin:$HOME/bin:$PATH
+path=('/usr/local/bin' '/opt/homebrew/bin' '/opt/homebrew/opt/curl/bin' '/usr/local/opt/curl/bin' $HOME/bin $path)
+export PATH
 
 local ME=$(whoami)
 # Path to your oh-my-zsh installation.
