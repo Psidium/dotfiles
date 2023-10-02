@@ -93,6 +93,8 @@ plugins=(git
 	zsh-autosuggestions
     asdf
     z
+    zsh-syntax-highlighting
+    zsh-history-substring-search
 	)
 zstyle ':completion:*' use-cache yes
 
@@ -105,16 +107,29 @@ else
   export EDITOR='nvim'
 fi
 
-export NODE_EXTRA_CA_CERTS=$(echo $HOME/SAPDevelop/concur/qa-certs/conf/*/ca.crt.pem)
+export NODE_EXTRA_CA_CERTS=$(echo $HOME/SAPDevelop/concur/deployment/conf/pp-53cokahklcpz/ca.crt.pem)
 
 #change color of autosuggest
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=242
 export ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
 
-export AUTO_NTFY_DONE_IGNORE="ntfy emacs htop info less mail man meld most mutt nano screen ssh tail tmux top vi vim nvim watch"
-export AUTO_NTFY_DONE_LONGER_THAN=-L20
-export AUTO_NTFY_DONE_UNFOCUSED_ONLY=-b
-eval "$(ntfy shell-integration)"
+# export AUTO_NTFY_DONE_IGNORE="ntfy emacs htop info less mail man meld most mutt nano screen ssh tail tmux top vi vim nvim watch"
+# export AUTO_NTFY_DONE_LONGER_THAN=-L20
+# export AUTO_NTFY_DONE_UNFOCUSED_ONLY=-b
+# eval "$(ntfy shell-integration)"
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+alias gti=git
+
+eval $(thefuck --alias)
+
+export JIRA_URL="https://jira.concur.com"
+
+function integration() {
+   SAP_USER=i849964 /Users/psidium/SAPDevelop/svpn-sso/svpn-login.py --oktaUser=gabriel.borges access-devtest.concursolutions.com
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
