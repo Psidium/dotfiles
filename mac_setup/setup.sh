@@ -22,7 +22,16 @@ brew install \
     youtube-dl \
     htop \
     thefuck \
-    wget
+    wget \
+    coreutils \
+    findutils \
+    gnu-tar \
+    gnu-sed \
+    gawk \
+    gnutls \
+    gnu-indent \
+    gnu-getopt \
+    grep
 brew install --cask \
     docker \
     eloston-chromium \
